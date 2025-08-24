@@ -10,8 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui";
-import { AlertTriangle, Loader2 } from "lucide-react";
+import { AlertTriangleIcon } from "lucide-react";
 import { toast } from "sonner";
+import { LoadingButton } from "@/components/shared/loading-button";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -51,12 +52,12 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={!isLoading ? onClose : undefined}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {variant === "destructive" && (
-              <AlertTriangle className="h-5 w-5 text-destructive" />
+              <AlertTriangleIcon className="size-5 text-destructive" />
             )}
             {title}
           </DialogTitle>
@@ -73,15 +74,13 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           >
             {cancelText}
           </Button>
-          <Button
+          <LoadingButton
             variant={variant === "destructive" ? "destructive" : "default"}
+            isLoading={isLoading}
+            loadingText={confirmationLoadingText}
+            text={confirmText}
             onClick={handleConfirm}
-            disabled={isLoading}
-            className="w-full sm:w-auto"
-          >
-            {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {isLoading ? confirmationLoadingText : confirmText}
-          </Button>
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

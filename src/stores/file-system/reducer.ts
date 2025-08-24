@@ -77,6 +77,7 @@ export const fileSystemStoreReducer = (
       return state;
     }
     case FileSystemStoreActionType.TOGGLE_FOLDER_EXPANSION: {
+      console.log("toggle folder expansion", action.payload.id);
       const nodeData = state.tree.getNode(action.payload.id);
 
       if (nodeData?.data.type === FileSystemNodeType.FOLDER) {

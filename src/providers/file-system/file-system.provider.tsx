@@ -29,7 +29,6 @@ export type FileSystemContextType = {
   renameFile: (id: string, newName: string, newExtension: string) => void;
   renameFolder: (id: string, newName: string) => void;
   toggleFolderExpansion: (id: string) => void;
-  checkIsFolderExpanded: (id: string) => boolean;
 };
 
 export const FileSystemContext = createContext<FileSystemContextType | null>(
@@ -63,13 +62,6 @@ export const FileSystemProvider = ({
   const onToggleFolderExpansion = (id: string) =>
     dispatch(toggleFolderExpansion(id));
 
-  const checkIsFolderExpanded = (id: string) => {
-    const node = state?.tree?.getNode(id);
-    return node?.data.type === FileSystemNodeType.FOLDER
-      ? !!node.data.isExpanded
-      : false;
-  };
-
   useEffect(() => {
     if (isPersisted(FILE_MANAGER_STORE_PERSISTENCE_KEY)) {
       const persistedState = loadPersistedValue(
@@ -98,8 +90,7 @@ export const FileSystemProvider = ({
         deleteNode: onDeleteNode,
         renameFile: onRenameFile,
         renameFolder: onRenameFolder,
-        toggleFolderExpansion: onToggleFolderExpansion,
-        checkIsFolderExpanded,
+        toggleFolderExpansion: onToggleFolderExpansion
       }}
     >
       {children}

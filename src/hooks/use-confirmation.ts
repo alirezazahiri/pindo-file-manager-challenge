@@ -13,7 +13,7 @@ type UseConfirmationProps<T> = {
 export type UseConfirmationReturn<T> = {
   open: (data: T) => void;
   close: () => void;
-  confirm: () => void;
+  confirm: () => void | Promise<void>;
   data: T | null;
   isOpen: boolean;
 };
@@ -37,6 +37,7 @@ export const useConfirmation = <T>({
   };
 
   const handleClose = () => {
+    console.log("handleClose");
     setConfirmationData({
       isOpen: false,
       data: null,
@@ -44,6 +45,7 @@ export const useConfirmation = <T>({
   };
 
   const handleConfirm = async () => {
+    console.log("confirmationData", confirmationData);
     if (!confirmationData.data) return;
     await onConfirm(confirmationData.data);
     handleClose();
