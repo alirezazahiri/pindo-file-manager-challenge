@@ -1,5 +1,3 @@
-import { FileSystemNodeType } from "./file-system-node-type.enum";
-
 export const Errors = {
   ROOT_NODE_NOT_FOUND: "Root node not found",
   FAILED_TO_DELETE_FILE: "Failed to delete file",
@@ -11,5 +9,4 @@ export const Errors = {
   FAILED_TO_TOGGLE_FOLDER_EXPANSION: "Failed to toggle folder expansion",
   EXPECTED_FILE_NOT_FOLDER: "Expected file not folder",
   EXPECTED_FOLDER_NOT_FILE: "Expected folder not file",
-  
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { FileSystemNodeType } from "@/enums";
 import { isPersisted, loadPersistedValue } from "@/lib/persistence";
 import {
   addFile,
@@ -90,7 +89,7 @@ export const FileSystemProvider = ({
         deleteNode: onDeleteNode,
         renameFile: onRenameFile,
         renameFolder: onRenameFolder,
-        toggleFolderExpansion: onToggleFolderExpansion
+        toggleFolderExpansion: onToggleFolderExpansion,
       }}
     >
       {children}

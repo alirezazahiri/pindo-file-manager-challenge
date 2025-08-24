@@ -10,8 +10,10 @@ type DeleteConfirmationData = {
   node: TreeNode<FileSystemNodeData> | null;
 };
 
-interface DeleteConfirmDialogProps
-  extends Omit<UseConfirmationReturn<DeleteConfirmationData>, "open"> {}
+type DeleteConfirmDialogProps = Omit<
+  UseConfirmationReturn<DeleteConfirmationData>,
+  "open"
+>;
 
 export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   close,

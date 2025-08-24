@@ -24,7 +24,7 @@ export const FormInput = <T extends FieldValues>({
       control={control}
       name={name}
       rules={rules}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>

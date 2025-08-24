@@ -3,6 +3,7 @@ import type { FormFieldType } from "@/types/form";
 import type { FieldValues } from "react-hook-form";
 import { FormInput } from "./form-input";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormFieldComponent<T extends FieldValues = any> =
   ComponentType<T> & {
     disabled?: boolean;

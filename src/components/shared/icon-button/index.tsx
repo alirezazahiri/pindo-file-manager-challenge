@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { PlusIcon } from "lucide-react";
 
 type IconButtonProps = {
   icon: React.ElementType;

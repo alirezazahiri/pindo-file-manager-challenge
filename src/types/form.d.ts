@@ -8,6 +8,7 @@ export type CommonFormFieldProps<T extends FieldValues> = {
     RegisterOptions<T>,
     "valueAsNumber" | "valueAsDate" | "setValueAs"
   >;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   helperText?: string | ((value: any) => string);
   name: Path<T>;
 };
