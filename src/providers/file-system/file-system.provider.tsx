@@ -9,8 +9,9 @@ import {
   renameFile,
   renameFolder,
   toggleFolderExpansion,
-} from "./store/actions";
-import { fileSystemInitialState, fileSystemStoreReducer } from "./store";
+  fileSystemInitialState,
+  fileSystemStoreReducer,
+} from "@/stores/file-system";
 import { FileSystemNodeData } from "@/types";
 import { createContext, useContext, useReducer } from "react";
 

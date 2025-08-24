@@ -1,5 +1,4 @@
-import type { Tree } from "@/core";
-import type { FileSystemNodeData, StoreAction } from "@/types";
+import type { StoreAction } from "@/types";
 import { FileSystemStoreActionType } from "./enum";
 
 type AddFolderPayload = {
