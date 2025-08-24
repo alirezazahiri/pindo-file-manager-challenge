@@ -50,7 +50,7 @@ export const TreeNodeComponent: React.FC<TreeNodeProps> = ({
   const hasChildren = children.length > 0;
   const nodeName =
     node.data.type === FileSystemNodeType.FILE
-      ? `${node.data.name}${node.data.extension}`
+      ? `${node.data.name}.${node.data.extension}`
       : node.data.name;
 
   const handleAddFile = () => {

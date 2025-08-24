@@ -79,4 +79,15 @@ export class Tree<T> implements ITree<T> {
 
     dfs(this.root);
   }
+
+  clone() {
+    const newTree = new Tree(this.root.data, this.compareFn, this.root.id);
+    this.traverse((node) => {
+      const newNode = newTree.addNode(node.parent?.id ?? "", node.data, node.id);
+      if (newNode) {
+        newTree.nodeMap.set(node.id, newNode);
+      }
+    });
+    return newTree;
+  }
 }

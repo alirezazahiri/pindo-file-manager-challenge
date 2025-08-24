@@ -19,8 +19,8 @@ export const fileSystemStoreReducer = (
       };
     }
     case FileSystemStoreActionType.ADD_FOLDER: {
-      const newState = { ...state };
-      const addedNode = newState.tree.addNode(
+      const newTree = state.tree.clone();
+      const addedNode = newTree.addNode(
         action.payload.parentId,
         FileSystemFolderNode.generate(
           action.payload.name,
@@ -36,12 +36,11 @@ export const fileSystemStoreReducer = (
         toast.error(Errors.FAILED_TO_ADD_FOLDER);
       }
 
-      return isAdded ? newState : state;
+      return isAdded ? { ...state, tree: newTree } : state;
     }
     case FileSystemStoreActionType.ADD_FILE: {
-      console.log("add file", action.payload);
-      const newState = { ...state };
-      const addedNode = newState.tree.addNode(
+      const newTree = state.tree.clone();
+      const addedNode = newTree.addNode(
         action.payload.parentId,
         FileSystemFileNode.generate(
           action.payload.name,
@@ -58,14 +57,12 @@ export const fileSystemStoreReducer = (
         toast.error(Errors.FAILED_TO_ADD_FILE);
       }
 
-      console.log("newState", newState);
-
-      return isAdded ? newState : state;
+      return isAdded ? { ...state, tree: newTree } : state;
     }
     case FileSystemStoreActionType.DELETE_NODE: {
-      const newState = { ...state };
-      const nodeData = newState.tree.getNode(action.payload.id)?.data;
-      const isDeleted = newState.tree.removeNode(action.payload.id);
+      const nodeData = state.tree.getNode(action.payload.id)?.data;
+      const newTree = state.tree.clone();
+      const isDeleted = newTree.removeNode(action.payload.id);
 
       if (isDeleted) {
         if (nodeData) {
@@ -81,70 +78,53 @@ export const fileSystemStoreReducer = (
         );
       }
 
-      return isDeleted ? newState : state;
+      return isDeleted ? { ...state, tree: newTree } : state;
     }
-    case FileSystemStoreActionType.RENAME_FILE: {
-      const nodeData = state.tree.getNode(action.payload.id);
-
-      if (nodeData?.data.type === FileSystemNodeType.FILE) {
-        const newState = { ...state };
-        const isUpdated = newState.tree.updateNodeData(action.payload.id, {
-          ...nodeData.data,
-          name: action.payload.newName,
-        });
-
-        if (isUpdated) {
-          toast.success(Messages.FILE_RENAMED_SUCCESSFULLY);
-        } else {
-          toast.error(Errors.FAILED_TO_RENAME_FILE);
-        }
-
-        return isUpdated ? newState : state;
-      }
-
-      toast.error(Errors.EXPECTED_FILE_NOT_FOLDER);
-
-      return state;
-    }
+    case FileSystemStoreActionType.RENAME_FILE:
     case FileSystemStoreActionType.RENAME_FOLDER: {
+      console.log(
+        "fileSystemStoreReducer::RENAME_FILE, RENAME_FOLDER",
+        action.payload
+      );
       const nodeData = state.tree.getNode(action.payload.id);
 
-      if (nodeData?.data.type === FileSystemNodeType.FOLDER) {
-        const newState = { ...state };
-        const isUpdated = newState.tree.updateNodeData(action.payload.id, {
-          ...nodeData.data,
-          name: action.payload.newName,
-        });
-
-        if (isUpdated) {
-          toast.success(Messages.FOLDER_RENAMED_SUCCESSFULLY);
-        } else {
-          toast.error(Errors.FAILED_TO_RENAME_FOLDER);
-        }
-
-        return isUpdated ? newState : state;
+      if (!nodeData) {
+        return state;
       }
 
-      toast.error(Errors.EXPECTED_FOLDER_NOT_FILE);
+      const newTree = state.tree.clone();
+      const isUpdated = newTree.updateNodeData(action.payload.id, {
+        ...nodeData.data,
+        name: action.payload.newName,
+      });
 
-      return state;
+      if (isUpdated) {
+        toast.success(
+          nodeData?.data.type === FileSystemNodeType.FOLDER
+            ? Messages.FOLDER_RENAMED_SUCCESSFULLY
+            : Messages.FILE_RENAMED_SUCCESSFULLY
+        );
+      } else {
+        toast.error(
+          nodeData?.data.type === FileSystemNodeType.FOLDER
+            ? Errors.FAILED_TO_RENAME_FOLDER
+            : Errors.FAILED_TO_RENAME_FILE
+        );
+      }
+
+      return isUpdated ? { ...state, tree: newTree } : state;
     }
     case FileSystemStoreActionType.TOGGLE_FOLDER_EXPANSION: {
-      console.log("toggle folder expansion", action.payload.id);
       const nodeData = state.tree.getNode(action.payload.id);
 
       if (nodeData?.data.type === FileSystemNodeType.FOLDER) {
-        const newState = { ...state };
-        const isUpdated = newState.tree.updateNodeData(action.payload.id, {
+        const newTree = state.tree.clone();
+        const isUpdated = newTree.updateNodeData(action.payload.id, {
           ...nodeData.data,
           isExpanded: !nodeData.data.isExpanded,
         });
 
-        console.log("isUpdated", isUpdated);
-        const newNode = newState.tree.getNode(action.payload.id);
-        console.log("newNode", newNode);
-
-        return isUpdated ? newState : state;
+        return isUpdated ? { ...state, tree: newTree } : state;
       }
 
       return state;

@@ -19,6 +19,9 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - [x] Add base types for the file system nodes
 - [x] Use the tree data structure to implement state management logic
 - [x] Implement the file manager UI and necessary shared and UI components
-- [x] Install react-hook-form and zod packages 
-- [ ] Add a reusable form-generator component with validation
+- [x] Install react-hook-form and zod packages
+- [x] Add a reusable form-generator component with validation
+- [ ] Prevent duplicate file and folder names
+- [ ] Add form errors to errors.enum
+- [ ] fix file rename not working
 - [ ] Refactor if needed (performance, readability, ...)

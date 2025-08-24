@@ -32,7 +32,7 @@ export function FormGenerator<T extends FieldValues>({
             return null;
           }
 
-          if (field.shouldRender && !field.shouldRender(form.getValues())) {
+          if (shouldRender && !shouldRender(form.getValues())) {
             return null;
           }
 
@@ -42,7 +42,7 @@ export function FormGenerator<T extends FieldValues>({
               control={form.control}
               defaultValue={field.defaultValue}
               helperText={field.helperText}
-              disabled={field.shouldDisable?.(form.getValues())}
+              disabled={shouldDisable?.(form.getValues())}
               {...rest}
             />
           );

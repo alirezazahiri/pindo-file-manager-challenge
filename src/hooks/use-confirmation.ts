@@ -37,7 +37,6 @@ export const useConfirmation = <T>({
   };
 
   const handleClose = () => {
-    console.log("handleClose");
     setConfirmationData({
       isOpen: false,
       data: null,
@@ -45,7 +44,6 @@ export const useConfirmation = <T>({
   };
 
   const handleConfirm = async () => {
-    console.log("confirmationData", confirmationData);
     if (!confirmationData.data) return;
     await onConfirm(confirmationData.data);
     handleClose();

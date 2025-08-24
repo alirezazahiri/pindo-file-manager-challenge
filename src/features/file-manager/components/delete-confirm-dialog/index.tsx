@@ -21,6 +21,8 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
   data,
   isOpen,
 }) => {
+  if (!data?.node) return null;
+
   return (
     <ConfirmationModal
       isOpen={isOpen}
@@ -30,7 +32,11 @@ export const DeleteConfirmDialog: React.FC<DeleteConfirmDialogProps> = ({
       title={`Delete ${
         data?.node?.data.type === FileSystemNodeType.FOLDER ? "Folder" : "File"
       }`}
-      description={`Are you sure you want to delete ${data?.node?.data.name}?`}
+      description={`Are you sure you want to delete ${data?.node?.data.name}${
+        data?.node?.data.type === FileSystemNodeType.FILE
+          ? `.${data?.node?.data.extension}`
+          : ""
+      }?`}
       confirmText="Delete"
       cancelText="Cancel"
       confirmationLoadingText="Deleting..."

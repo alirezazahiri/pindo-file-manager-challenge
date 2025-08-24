@@ -20,8 +20,10 @@ import type { Tree } from "@/core";
 import { unmarshalTree } from "@/lib/marshal";
 import { compareFileSystemNodes } from "@/lib/file-system";
 
-export type FileSystemContextType = {
+export type FileSystemStateContextType = {
   tree: Tree<FileSystemNodeData>;
+};
+export type FileSystemDispatchContextType = {
   addFolder: (parentId: string, name: string) => void;
   addFile: (parentId: string, name: string, extension: string) => void;
   deleteNode: (id: string) => void;
@@ -30,9 +32,10 @@ export type FileSystemContextType = {
   toggleFolderExpansion: (id: string) => void;
 };
 
-export const FileSystemContext = createContext<FileSystemContextType | null>(
-  null
-);
+export const FileSystemStateContext =
+  createContext<FileSystemStateContextType | null>(null);
+export const FileSystemDispatchContext =
+  createContext<FileSystemDispatchContextType | null>(null);
 
 export const FileSystemProvider = ({
   children,
@@ -80,27 +83,48 @@ export const FileSystemProvider = ({
   }, [state]);
 
   return (
-    <FileSystemContext.Provider
+    <FileSystemStateContext.Provider
       value={{
         // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         tree: state?.tree!, // we already know that the tree is not null or undefined, because we initialize it anyway
-        addFolder: onAddFolder,
-        addFile: onAddFile,
-        deleteNode: onDeleteNode,
-        renameFile: onRenameFile,
-        renameFolder: onRenameFolder,
-        toggleFolderExpansion: onToggleFolderExpansion,
       }}
     >
-      {children}
-    </FileSystemContext.Provider>
+      <FileSystemDispatchContext.Provider
+        value={{
+          addFolder: onAddFolder,
+          addFile: onAddFile,
+          deleteNode: onDeleteNode,
+          renameFile: onRenameFile,
+          renameFolder: onRenameFolder,
+          toggleFolderExpansion: onToggleFolderExpansion,
+        }}
+      >
+        {children}
+      </FileSystemDispatchContext.Provider>
+    </FileSystemStateContext.Provider>
   );
 };
 
-export const useFileSystem = () => {
-  const context = useContext(FileSystemContext);
+export const useFileSystemState = () => {
+  const context = useContext(FileSystemStateContext);
+
   if (!context) {
-    throw new Error("useFileSystem must be used within a FileSystemProvider");
+    throw new Error(
+      "useFileSystemState must be used within a FileSystemProvider"
+    );
   }
+
+  return context;
+};
+
+export const useFileSystemDispatch = () => {
+  const context = useContext(FileSystemDispatchContext);
+
+  if (!context) {
+    throw new Error(
+      "useFileSystemDispatch must be used within a FileSystemProvider"
+    );
+  }
+
   return context;
 };

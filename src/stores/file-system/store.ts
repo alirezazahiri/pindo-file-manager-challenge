@@ -1,13 +1,13 @@
 import { Tree } from "@/core";
 import { FileSystemFolderNode } from "@/models";
-import { FileSystemContextType } from "@/providers/file-system/file-system.provider";
+import { FileSystemStateContextType } from "@/providers/file-system/file-system.provider";
 import { compareFileSystemNodes } from "@/lib/file-system";
 import { saveStateToStorage } from "@/lib/persistence";
 import { marshalTree } from "@/lib/marshal";
 import { debounce } from "@/lib/utils";
 import type { FileSystemNodeData } from "@/types";
 
-export type FileSystemStoreState = Pick<FileSystemContextType, "tree">;
+export type FileSystemStoreState = FileSystemStateContextType;
 
 export const FILE_MANAGER_STORE_PERSISTENCE_KEY = "file-manager-store";
 

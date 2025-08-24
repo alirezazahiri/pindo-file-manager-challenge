@@ -11,24 +11,24 @@ import {
   RenameFileDialog,
   RenameFolderDialog,
 } from "./components";
-import { useFileSystem } from "@/providers";
 import { useState } from "react";
 import { Card } from "@/components/ui";
+import { useFileSystemDispatch, useFileSystemState } from "@/providers";
 
 type DeleteConfirmationData = {
   node: TreeNode<FileSystemNodeData> | null;
 };
 
 export const FileManagerFeature = () => {
+  const { tree } = useFileSystemState();
   const {
-    tree,
     addFile,
     addFolder,
     renameFile,
     renameFolder,
     deleteNode,
     toggleFolderExpansion,
-  } = useFileSystem();
+  } = useFileSystemDispatch();
   const { value: isAddFileDialogOpen, toggle: toggleAddFileDialog } =
     useBoolean();
   const { value: isAddFolderDialogOpen, toggle: toggleAddFolderDialog } =
