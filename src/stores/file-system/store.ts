@@ -1,13 +1,15 @@
 import { Tree } from "@/core";
-import { compareFileSystemNodes } from "@/lib/file-system";
 import { FileSystemFolderNode } from "@/models";
-import type { FileSystemNodeData } from "@/types";
-import type { FileSystemStoreAction } from "./types";
 import { FileSystemStoreActionType } from "./enum";
 import { FileSystemContextType } from "@/providers/file-system/file-system.provider";
+import { compareFileSystemNodes } from "@/lib/file-system";
 import { saveStateToStorage } from "@/lib/persistence";
-import { debounce } from "@/lib/utils";
 import { marshalTree } from "@/lib/marshal";
+import { debounce } from "@/lib/utils";
+import type { FileSystemNodeData } from "@/types";
+import type { FileSystemStoreAction } from "./types";
+
+type FileSystemStoreState = Pick<FileSystemContextType, "tree">;
 
 export const FILE_MANAGER_STORE_PERSISTENCE_KEY = "file-manager-store";
 
@@ -17,12 +19,12 @@ const createInitialTree = () => {
   return new Tree<FileSystemNodeData>(root, compareFileSystemNodes);
 };
 
-export const fileSystemInitialState: Pick<FileSystemContextType, "tree"> = {
+export const fileSystemInitialState: FileSystemStoreState = {
   tree: createInitialTree(),
 };
 
 export const fileSystemStoreReducer = (
-  state: Pick<FileSystemContextType, "tree"> = fileSystemInitialState,
+  state: FileSystemStoreState = fileSystemInitialState,
   action: FileSystemStoreAction
 ) => {
   switch (action.type) {
@@ -49,7 +51,7 @@ export const fileSystemStoreReducer = (
 };
 
 export const persistFileSystemState = debounce(
-  (state: Tree<FileSystemNodeData>) => {
+  (state: FileSystemStoreState["tree"]) => {
     saveStateToStorage(state, FILE_MANAGER_STORE_PERSISTENCE_KEY, marshalTree);
   },
   300

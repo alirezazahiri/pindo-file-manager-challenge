@@ -17,7 +17,6 @@ import {
   setTree,
 } from "@/stores/file-system";
 import { FileSystemNodeData } from "@/types";
-import { PersistedState } from "@/types/persisted-state";
 import type { Tree } from "@/core";
 import { unmarshalTree } from "@/lib/marshal";
 import { compareFileSystemNodes } from "@/lib/file-system";
@@ -74,7 +73,7 @@ export const FileSystemProvider = ({
   useEffect(() => {
     if (isPersisted(FILE_MANAGER_STORE_PERSISTENCE_KEY)) {
       const persistedState = loadPersistedValue(
-        state?.tree!,
+        fileSystemInitialState.tree,
         FILE_MANAGER_STORE_PERSISTENCE_KEY,
         (state) =>
           unmarshalTree<FileSystemNodeData>(state, compareFileSystemNodes)
@@ -87,7 +86,7 @@ export const FileSystemProvider = ({
     if (state?.tree) {
       persistFileSystemState(state.tree);
     }
-  }, [state]);
+  }, [state?.tree]);
 
   return (
     <FileSystemContext.Provider
