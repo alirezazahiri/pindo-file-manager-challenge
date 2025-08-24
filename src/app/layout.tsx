@@ -2,6 +2,7 @@ import type React from "react";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { RootLayout } from "@/components/layout";
+import { FileSystemProvider } from "@/providers";
 import "./globals.css";
 
 type RootLayoutProps = Readonly<{
@@ -25,7 +26,9 @@ const Layout: React.FC<RootLayoutProps> = ({ children }) => {
     <html lang="en" className={figtree.variable}>
       <body className="min-h-screen grid grid-rows-[80px_1fr]">
         <RootLayout.Header />
-        <main>{children}</main>
+        <FileSystemProvider>
+          <main>{children}</main>
+        </FileSystemProvider>
       </body>
     </html>
   );

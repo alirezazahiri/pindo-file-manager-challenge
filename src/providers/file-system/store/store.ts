@@ -2,8 +2,9 @@ import { Tree } from "@/core";
 import { compareFileSystemNodes } from "@/lib/file-system";
 import { FileSystemFolderNode } from "@/models";
 import type { FileSystemNodeData } from "@/types";
-import type { FileSystemStore, FileSystemStoreAction } from "./types";
+import type { FileSystemStoreAction } from "./types";
 import { FileSystemStoreActionType } from "./enum";
+import { FileSystemContextType } from "@/providers/file-system/file-system.provider";
 
 export const FILE_MANAGER_STORE_PERSISTENCE_KEY = "file-manager-store";
 
@@ -13,12 +14,12 @@ const createInitialTree = () => {
   return new Tree<FileSystemNodeData>(root, compareFileSystemNodes);
 };
 
-const initialState: Partial<FileSystemStore> = {
+export const fileSystemInitialState: Pick<FileSystemContextType, "tree"> = {
   tree: createInitialTree(),
 };
 
-const reducer = (
-  state: Partial<FileSystemStore> = initialState,
+export const fileSystemStoreReducer = (
+  state: Pick<FileSystemContextType, "tree"> = fileSystemInitialState,
   action: FileSystemStoreAction
 ) => {
   switch (action.type) {
