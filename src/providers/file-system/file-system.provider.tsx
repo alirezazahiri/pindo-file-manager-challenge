@@ -66,7 +66,8 @@ export const FileSystemProvider = ({
   return (
     <FileSystemContext.Provider
       value={{
-        tree: state?.tree!, // !FIXME: we already know that the tree is not null or undefined, because we initialize it anyway
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+        tree: state?.tree!, // we already know that the tree is not null or undefined, because we initialize it anyway
         addFolder: onAddFolder,
         addFile: onAddFile,
         deleteNode: onDeleteNode,

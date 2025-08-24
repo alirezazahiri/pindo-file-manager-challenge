@@ -1,9 +1,7 @@
 import { FileSystemStoreActionType } from "./enum";
 import type { FileSystemStoreAction } from "./types";
 
-type ActionDispatcher = (...args: any[]) => FileSystemStoreAction;
-
-export const addFolder: ActionDispatcher = (parentId: string, name: string) => {
+export const addFolder = (parentId: string, name: string): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.ADD_FOLDER,
     payload: {
@@ -13,11 +11,11 @@ export const addFolder: ActionDispatcher = (parentId: string, name: string) => {
   };
 };
 
-export const addFile: ActionDispatcher = (
+export const addFile = (
   parentId: string,
   name: string,
   extension: string
-) => {
+): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.ADD_FILE,
     payload: {
@@ -28,7 +26,7 @@ export const addFile: ActionDispatcher = (
   };
 };
 
-export const deleteNode: ActionDispatcher = (id: string) => {
+export const deleteNode = (id: string): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.DELETE_NODE,
     payload: {
@@ -37,11 +35,11 @@ export const deleteNode: ActionDispatcher = (id: string) => {
   };
 };
 
-export const renameFile: ActionDispatcher = (
+export const renameFile = (
   id: string,
   newName: string,
   newExtension: string
-) => {
+): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.RENAME_FILE,
     payload: {
@@ -52,7 +50,7 @@ export const renameFile: ActionDispatcher = (
   };
 };
 
-export const renameFolder: ActionDispatcher = (id: string, newName: string) => {
+export const renameFolder = (id: string, newName: string): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.RENAME_FOLDER,
     payload: {
@@ -62,7 +60,7 @@ export const renameFolder: ActionDispatcher = (id: string, newName: string) => {
   };
 };
 
-export const toggleFolderExpansion: ActionDispatcher = (id: string) => {
+export const toggleFolderExpansion = (id: string): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.TOGGLE_FOLDER_EXPANSION,
     payload: {
