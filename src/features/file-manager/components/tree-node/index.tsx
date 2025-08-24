@@ -21,8 +21,8 @@ type TreeNodeDataProps = {
 };
 
 type TreeNodeEventProps = {
-  onAddFile: () => void;
-  onAddFolder: () => void;
+  onAddFile: (parentId: string) => void;
+  onAddFolder: (parentId: string) => void;
   onRenameFolder: (id: string) => void;
   onDeleteNode: (id: string) => void;
   onRenameFile: (id: string) => void;
@@ -52,6 +52,14 @@ export const TreeNodeComponent: React.FC<TreeNodeProps> = ({
     node.data.type === FileSystemNodeType.FILE
       ? `${node.data.name}${node.data.extension}`
       : node.data.name;
+
+  const handleAddFile = () => {
+    onAddFile(node.id);
+  };
+
+  const handleAddFolder = () => {
+    onAddFolder(node.id);
+  };
 
   const handleRenameFolder = () => {
     onRenameFolder(node.id);
@@ -110,8 +118,8 @@ export const TreeNodeComponent: React.FC<TreeNodeProps> = ({
         <TreeNodeActions
           isFolder={isFolder}
           isRoot={isRoot}
-          onAddFile={onAddFile}
-          onAddFolder={onAddFolder}
+          onAddFile={handleAddFile}
+          onAddFolder={handleAddFolder}
           onRenameFolder={handleRenameFolder}
           onDeleteNode={handleDeleteNode}
           onRenameFile={handleRenameFile}

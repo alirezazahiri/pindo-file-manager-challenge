@@ -78,7 +78,7 @@ export const FileSystemProvider = ({
     if (state?.tree) {
       persistFileSystemState(state.tree);
     }
-  }, [state?.tree]);
+  }, [state]);
 
   return (
     <FileSystemContext.Provider

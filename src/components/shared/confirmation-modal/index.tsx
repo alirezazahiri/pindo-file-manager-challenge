@@ -45,6 +45,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       await onConfirm();
     } catch (error) {
       toast.error("Error: " + (error as Error).message);
+      
     } finally {
       setIsLoading(false);
       onClose();

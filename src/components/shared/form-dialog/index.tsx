@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,53 +10,72 @@ import {
 } from "@/components/ui";
 import { useState } from "react";
 import { LoadingButton } from "@/components/shared/loading-button";
+import { FormGenerator } from "@/components/form-generator";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import { FormField } from "@/types/form";
 
-type FormDialogProps = {
+type FormDialogProps<T extends FieldValues> = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => Promise<void> | void;
+  onSubmit: (data: T) => Promise<void> | void;
   title: string;
-  // TODO: add a formFields prop which is coupled with react-hook-form and zod
+  formFields: FormField<T>[];
+  form: UseFormReturn<T>;
 };
 
-export const FormDialog: React.FC<FormDialogProps> = ({
+export const FormDialog = <T extends FieldValues>({
   isOpen,
   onClose,
   onSubmit,
   title,
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
+  formFields,
+  form,
+}: FormDialogProps<T>) => {
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO: implement me
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
+  const handleSubmit = async (data: T) => {
+    setLoading(true);
+    await onSubmit(data);
+    setLoading(false);
+    handleClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={!isLoading ? onClose : undefined}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
+        <FormGenerator<T>
+          onSubmit={handleSubmit}
+          fields={formFields}
+          form={form}
+          className="flex flex-col gap-5"
+        >
           <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
             <Button
               variant="outline"
-              onClick={onClose}
-              disabled={isLoading}
+              onClick={handleClose}
+              disabled={loading}
               className="w-full sm:w-auto bg-transparent"
+              type="reset"
             >
               Cancel
             </Button>
             <LoadingButton
               type="submit"
               variant="default"
-              isLoading={isLoading}
+              isLoading={loading}
               loadingText="Submitting..."
               text="Submit"
             />
           </DialogFooter>
-        </form>
+        </FormGenerator>
       </DialogContent>
     </Dialog>
   );

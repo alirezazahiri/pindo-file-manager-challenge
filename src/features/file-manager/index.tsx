@@ -12,9 +12,8 @@ import {
   RenameFolderDialog,
 } from "./components";
 import { useFileSystem } from "@/providers";
-import { toast } from "sonner";
 import { useState } from "react";
-import { FileSystemNodeType } from "@/enums";
+import { Card } from "@/components/ui";
 
 type DeleteConfirmationData = {
   node: TreeNode<FileSystemNodeData> | null;
@@ -49,18 +48,23 @@ export const FileManagerFeature = () => {
       onConfirm: (data) => {
         if (data.node) {
           deleteNode(data.node.id);
-          toast.info(
-            `${
-              data.node.data.type === FileSystemNodeType.FOLDER
-                ? "Folder"
-                : "File"
-            } with name "${data.node.data.name}" deleted`
-          );
         }
       },
     });
 
   const rootNode = tree.root;
+
+  const handleAddFile = (parentId: string) => {
+    const node = tree.getNode(parentId);
+    setTargetNode(node);
+    toggleAddFileDialog();
+  };
+
+  const handleAddFolder = (parentId: string) => {
+    const node = tree.getNode(parentId);
+    setTargetNode(node);
+    toggleAddFolderDialog();
+  };
 
   const handleRenameFile = (id: string) => {
     const node = tree.getNode(id);
@@ -83,36 +87,44 @@ export const FileManagerFeature = () => {
   return (
     <>
       <section className="container mx-auto p-4">
-        <TreeNodeComponent
-          tree={tree}
-          node={rootNode}
-          level={0}
-          onAddFile={toggleAddFileDialog}
-          onAddFolder={toggleAddFolderDialog}
-          onRenameFile={handleRenameFile}
-          onRenameFolder={handleRenameFolder}
-          onDeleteNode={handleDeleteNode}
-          onToggleFolderExpansion={toggleFolderExpansion}
-        />
+        <Card className="p-4">
+          <TreeNodeComponent
+            tree={tree}
+            node={rootNode}
+            level={0}
+            onAddFile={handleAddFile}
+            onAddFolder={handleAddFolder}
+            onRenameFile={handleRenameFile}
+            onRenameFolder={handleRenameFolder}
+            onDeleteNode={handleDeleteNode}
+            onToggleFolderExpansion={toggleFolderExpansion}
+          />
+        </Card>
       </section>
       <DeleteConfirmDialog {...deleteConfirmationProps} />
       <AddFileDialog
         isOpen={isAddFileDialogOpen}
         onClose={toggleAddFileDialog}
+        parentNode={targetNode}
+        onSubmit={addFile}
       />
       <AddFolderDialog
         isOpen={isAddFolderDialogOpen}
         onClose={toggleAddFolderDialog}
+        parentNode={targetNode}
+        onSubmit={addFolder}
       />
       <RenameFileDialog
         isOpen={isRenameFileDialogOpen}
         onClose={toggleRenameFileDialog}
         node={targetNode}
+        onSubmit={renameFile}
       />
       <RenameFolderDialog
         isOpen={isRenameFolderDialogOpen}
         onClose={toggleRenameFolderDialog}
         node={targetNode}
+        onSubmit={renameFolder}
       />
     </>
   );
