@@ -7,17 +7,18 @@ export class Tree<T> implements ITree<T> {
 
   constructor(
     private readonly rootData: T,
-    private compareFn: (a: T, b: T) => number
+    private compareFn: (a: T, b: T) => number,
+    rootId?: string
   ) {
-    this.root = new TreeNode(rootData);
+    this.root = new TreeNode(rootData, rootId);
     this.nodeMap.set(this.root.id, this.root);
   }
 
-  addNode(parentId: string, data: T) {
+  addNode(parentId: string, data: T, id?: string) {
     const parent = this.nodeMap.get(parentId);
     if (!parent) return null;
 
-    const newNode = new TreeNode(data);
+    const newNode = new TreeNode(data, id);
     parent.addChild(newNode, this.compareFn);
     this.nodeMap.set(newNode.id, newNode);
 

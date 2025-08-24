@@ -1,4 +1,4 @@
-export enum FileManagerNodeType {
+export enum FileSystemNodeType {
   FILE = "file",
   FOLDER = "folder",
 }

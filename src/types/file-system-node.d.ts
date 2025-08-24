@@ -1,18 +1,19 @@
-import { FileManagerNodeType } from "@/enums";
+import { FileSystemNodeType } from "@/enums";
 
-export type FileSystemNodeData = {
+export type FileSystemNodeData<T extends FileSystemNodeType = FileSystemNodeType> = {
   id: string;
   name: string;
-  createdAt: Date;
+  type: T;
 } & (
   | {
       parentId: string; // files always have a parent
-      type: FileManagerNodeType.FILE;
+      type: FileSystemNodeType.FILE;
       extension: string;
     }
   | {
       parentId: string | null; // root node has no parent
-      type: FileManagerNodeType.FOLDER;
-      children: string[];
+      type: FileSystemNodeType.FOLDER;
+      isExpanded: boolean; // default to true (or maybe false)
+      // TODO: come back and update this comment if the decision is made
     }
 );

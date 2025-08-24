@@ -1,1 +1,1 @@
-export * from "./file-manager-node-type.enum";
+export * from "./file-system-node-type.enum";

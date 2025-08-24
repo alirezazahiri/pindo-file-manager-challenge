@@ -6,8 +6,8 @@ export class TreeNode<T> implements ITreeNode<T> {
   public parent: TreeNode<T> | null = null;
   public children: TreeNode<T>[] = [];
 
-  constructor(public data: T) {
-    this.id = generateUUIDV4();
+  constructor(public data: T, id?: string) {
+    this.id = id ?? generateUUIDV4();
   }
 
   addChild(child: TreeNode<T>, compareFn: (a: T, b: T) => number) {
