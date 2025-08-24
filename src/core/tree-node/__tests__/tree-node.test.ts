@@ -111,9 +111,6 @@ describe("TreeNode class", () => {
       parent.addChild(child2, compareByValue);
 
       const removed = parent.removeChild(child1.id);
-      // TODO: the child1 turns into an orphan: 
-      // so the children list should not contain it 
-      // the parent of the removed node should become null
 
       expect(removed).toBe(child1);
       expect(parent.children).toHaveLength(1);
