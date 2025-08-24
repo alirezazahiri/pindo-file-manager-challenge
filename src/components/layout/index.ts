@@ -1,0 +1,1 @@
+export * as RootLayout from "./root-layout";
