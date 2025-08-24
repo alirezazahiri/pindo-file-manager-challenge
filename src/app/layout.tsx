@@ -4,6 +4,7 @@ import { Figtree } from "next/font/google";
 import { RootLayout } from "@/components/layout";
 import { FileSystemProvider } from "@/providers";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const Layout: React.FC<RootLayoutProps> = ({ children }) => {
         <RootLayout.Header />
         <FileSystemProvider>
           <main>{children}</main>
+          <Toaster position="bottom-right" richColors closeButton />
         </FileSystemProvider>
       </body>
     </html>
