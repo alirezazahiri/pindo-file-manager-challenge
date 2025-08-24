@@ -1,7 +1,8 @@
 "use client";
 
-import type { Tree } from "@/core";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { FileSystemNodeType } from "@/enums";
+import { isPersisted, loadPersistedValue } from "@/lib/persistence";
 import {
   addFile,
   addFolder,
@@ -11,9 +12,15 @@ import {
   toggleFolderExpansion,
   fileSystemInitialState,
   fileSystemStoreReducer,
+  persistFileSystemState,
+  FILE_MANAGER_STORE_PERSISTENCE_KEY,
+  setTree,
 } from "@/stores/file-system";
 import { FileSystemNodeData } from "@/types";
-import { createContext, useContext, useReducer } from "react";
+import { PersistedState } from "@/types/persisted-state";
+import type { Tree } from "@/core";
+import { unmarshalTree } from "@/lib/marshal";
+import { compareFileSystemNodes } from "@/lib/file-system";
 
 export type FileSystemContextType = {
   tree: Tree<FileSystemNodeData>;
@@ -63,6 +70,24 @@ export const FileSystemProvider = ({
       ? !!node.data.isExpanded
       : false;
   };
+
+  useEffect(() => {
+    if (isPersisted(FILE_MANAGER_STORE_PERSISTENCE_KEY)) {
+      const persistedState = loadPersistedValue(
+        state?.tree!,
+        FILE_MANAGER_STORE_PERSISTENCE_KEY,
+        (state) =>
+          unmarshalTree<FileSystemNodeData>(state, compareFileSystemNodes)
+      );
+      dispatch(setTree(persistedState));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (state?.tree) {
+      persistFileSystemState(state.tree);
+    }
+  }, [state]);
 
   return (
     <FileSystemContext.Provider

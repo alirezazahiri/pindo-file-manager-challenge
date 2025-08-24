@@ -1,4 +1,5 @@
 export enum FileSystemStoreActionType {
+  SET_TREE = "SET_TREE",
   ADD_FOLDER = "ADD_FOLDER",
   ADD_FILE = "ADD_FILE",
   DELETE_NODE = "DELETE_NODE",

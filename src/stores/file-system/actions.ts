@@ -1,7 +1,23 @@
 import { FileSystemStoreActionType } from "./enum";
+import type { FileSystemNodeData } from "@/types";
 import type { FileSystemStoreAction } from "./types";
+import type { Tree } from "@/core";
 
-export const addFolder = (parentId: string, name: string): FileSystemStoreAction => {
+export const setTree = (
+  tree: Tree<FileSystemNodeData>
+): FileSystemStoreAction => {
+  return {
+    type: FileSystemStoreActionType.SET_TREE,
+    payload: {
+      tree,
+    },
+  };
+};
+
+export const addFolder = (
+  parentId: string,
+  name: string
+): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.ADD_FOLDER,
     payload: {
@@ -50,7 +66,10 @@ export const renameFile = (
   };
 };
 
-export const renameFolder = (id: string, newName: string): FileSystemStoreAction => {
+export const renameFolder = (
+  id: string,
+  newName: string
+): FileSystemStoreAction => {
   return {
     type: FileSystemStoreActionType.RENAME_FOLDER,
     payload: {

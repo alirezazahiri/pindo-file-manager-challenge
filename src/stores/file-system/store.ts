@@ -5,6 +5,9 @@ import type { FileSystemNodeData } from "@/types";
 import type { FileSystemStoreAction } from "./types";
 import { FileSystemStoreActionType } from "./enum";
 import { FileSystemContextType } from "@/providers/file-system/file-system.provider";
+import { saveStateToStorage } from "@/lib/persistence";
+import { debounce } from "@/lib/utils";
+import { marshalTree } from "@/lib/marshal";
 
 export const FILE_MANAGER_STORE_PERSISTENCE_KEY = "file-manager-store";
 
@@ -23,6 +26,11 @@ export const fileSystemStoreReducer = (
   action: FileSystemStoreAction
 ) => {
   switch (action.type) {
+    case FileSystemStoreActionType.SET_TREE:
+      return {
+        ...state,
+        tree: action.payload.tree,
+      };
     case FileSystemStoreActionType.ADD_FOLDER:
       break;
     case FileSystemStoreActionType.ADD_FILE:
@@ -39,3 +47,10 @@ export const fileSystemStoreReducer = (
       return state;
   }
 };
+
+export const persistFileSystemState = debounce(
+  (state: Tree<FileSystemNodeData>) => {
+    saveStateToStorage(state, FILE_MANAGER_STORE_PERSISTENCE_KEY, marshalTree);
+  },
+  300
+);
