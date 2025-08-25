@@ -29,7 +29,7 @@ const Layout: React.FC<RootLayoutProps> = ({ children }) => {
       <body className="min-h-screen grid grid-rows-[80px_1fr]">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
