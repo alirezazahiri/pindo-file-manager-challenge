@@ -22,6 +22,9 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - [x] Install react-hook-form and zod packages
 - [x] Add a reusable form-generator component with validation
 - [x] Prevent duplicate file and folder names
-- [x] Add form errors to errors.enum
-- [x] fix file rename not working
-- [ ] Refactor if needed (performance, readability, ...)
+- [x] ~~Add form errors to errors.enum~~ (moved messages and errors to constants)
+- [x] Fix file rename not working
+- [ ] Add dark mode
+- Refactor if needed (performance, readability, ...)
+  - [x] Use command pattern for file system actions
+  - [ ] Refactor rename node command (break it into separate commands)
