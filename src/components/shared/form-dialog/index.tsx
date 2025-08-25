@@ -47,7 +47,7 @@ export const FormDialog = <T extends FieldValues>({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="form-dialog-description">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

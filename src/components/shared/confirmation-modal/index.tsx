@@ -54,7 +54,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={!isLoading ? onClose : undefined}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="confirmation-modal-description">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {variant === "destructive" && (

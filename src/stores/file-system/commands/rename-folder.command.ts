@@ -17,7 +17,7 @@ export class RenameFolderCommand extends BaseFileSystemCommand {
     const { id, newName } = this.payload;
 
     const nodeData = state.tree.getNode(id);
-    if (!nodeData) {
+    if (!nodeData || nodeData.data.name === newName) {
       return this.createUnchangedResult();
     }
 

@@ -1,5 +1,5 @@
 import { Errors } from "@/constants/errors";
-import { FILE_NAME_REGEX } from "@/constants/regex";
+import { FOLDER_NAME_REGEX } from "@/constants/regex";
 import { FormField } from "@/types/form";
 import { z } from "zod";
 
@@ -8,7 +8,7 @@ export const addFolderSchema = z.object({
     .string()
     .trim()
     .min(1, { message: Errors.FOLDER_NAME_REQUIRED })
-    .regex(FILE_NAME_REGEX, {
+    .regex(FOLDER_NAME_REGEX, {
       message: Errors.FOLDER_NAME_INVALID_CHARACTERS,
     }),
 });

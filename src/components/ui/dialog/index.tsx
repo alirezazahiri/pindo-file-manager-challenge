@@ -75,6 +75,7 @@ function DialogContent({
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
+        <DialogPrimitive.Description className="sr-only">{props["aria-describedby"]}</DialogPrimitive.Description>
       </DialogPrimitive.Content>
     </DialogPortal>
   )

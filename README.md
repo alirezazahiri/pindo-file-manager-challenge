@@ -28,3 +28,6 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - Refactors
   - [x] Use command pattern for file system actions
   - [x] Refactor rename node command (break it into separate commands)
+  - [x] Enforce lowercase file extensions
+  - [x] Allow file name to be empty if extension is provided
+  - [x] Do not allow folder names to be . or .. 
