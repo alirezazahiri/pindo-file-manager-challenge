@@ -7,8 +7,8 @@ export const Messages = {
   FOLDER_ADDED_SUCCESSFULLY: "Folder added successfully",
   FILE_RENAMED_SUCCESSFULLY: "File renamed successfully",
   FOLDER_RENAMED_SUCCESSFULLY: "Folder renamed successfully",
-  NODE_DELETED_SUCCESSFULLY: (nodeType: FileSystemNodeType, name: string) =>
+  NODE_DELETED_SUCCESSFULLY: (nodeType: FileSystemNodeType, name: string, extension?: string) =>
     `${
       nodeType === FileSystemNodeType.FOLDER ? "Folder" : "File"
-    } with name "${name}" deleted`,
+    } with name "${name}${extension ? `.${extension}` : ""}" deleted`,
 };

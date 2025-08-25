@@ -4,6 +4,7 @@ import { Messages } from "@/constants/messages";
 import { BaseFileSystemCommand } from "./abstract";
 import type { DeleteNodePayload } from "@/stores/file-system/types";
 import { FileSystemStateContextType } from "@/providers";
+import { FileSystemNodeData } from "@/types";
 
 export class DeleteNodeCommand extends BaseFileSystemCommand {
   constructor(private payload: DeleteNodePayload) {
@@ -12,9 +13,9 @@ export class DeleteNodeCommand extends BaseFileSystemCommand {
 
   execute(state: FileSystemStateContextType) {
     const { id } = this.payload;
-    
+
     const nodeData = state.tree.getNode(id)?.data;
-    
+
     const newTree = state.tree.clone();
     const isDeleted = newTree.removeNode(id);
 
@@ -23,9 +24,7 @@ export class DeleteNodeCommand extends BaseFileSystemCommand {
       return this.createErrorResult(errorMessage);
     }
 
-    const successMessage = nodeData
-      ? Messages.NODE_DELETED_SUCCESSFULLY(nodeData.type, nodeData.name)
-      : "Node deleted successfully";
+    const successMessage = this.getDeleteSuccessMessage(nodeData);
 
     return this.createSuccessResult(
       { ...state, tree: newTree },
@@ -37,5 +36,17 @@ export class DeleteNodeCommand extends BaseFileSystemCommand {
     return nodeType === FileSystemNodeType.FOLDER
       ? Errors.FAILED_TO_DELETE_FOLDER
       : Errors.FAILED_TO_DELETE_FILE;
+  }
+
+  private getDeleteSuccessMessage(nodeData?: FileSystemNodeData) {
+    return nodeData
+      ? Messages.NODE_DELETED_SUCCESSFULLY(
+          nodeData.type,
+          nodeData.name,
+          nodeData.type === FileSystemNodeType.FILE
+            ? nodeData.extension
+            : undefined
+        )
+      : "";
   }
 }

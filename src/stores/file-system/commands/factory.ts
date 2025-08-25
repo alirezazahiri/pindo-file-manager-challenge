@@ -1,6 +1,5 @@
 import { FileSystemStoreActionType } from "@/stores/file-system/enum";
 import type { FileSystemStoreAction } from "@/stores/file-system/types";
-import type { IFileSystemCommand } from "./abstract";
 import { AddFolderCommand } from "./add-folder.command";
 import { AddFileCommand } from "./add-file.command";
 import { DeleteNodeCommand } from "./delete-node.command";

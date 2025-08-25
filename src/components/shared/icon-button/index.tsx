@@ -1,10 +1,12 @@
+"use client";
+
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 type IconButtonProps = {
   icon: React.ElementType;
   onClick: () => void;
-  color: "blue" | "green" | "yellow" | "red";
+  color: "blue" | "green" | "yellow" | "red" | "primary";
   title: string;
   disabled?: boolean;
 };
@@ -25,6 +27,7 @@ export const IconButton = ({
         "hover:bg-green-100 hover:text-green-700": color === "green",
         "hover:bg-yellow-100 hover:text-yellow-700": color === "yellow",
         "hover:bg-red-100 hover:text-red-700": color === "red",
+        "hover:bg-primary/10 hover:text-primary": color === "primary",
       })}
       onClick={onClick}
       title={title}

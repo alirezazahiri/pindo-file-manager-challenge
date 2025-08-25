@@ -5,6 +5,7 @@ import { RootLayout } from "@/components/layout";
 import { FileSystemProvider } from "@/providers";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "next-themes";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
@@ -24,13 +25,20 @@ const figtree = Figtree({
 
 const Layout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en" className={figtree.variable}>
+    <html lang="en" className={figtree.variable} suppressHydrationWarning>
       <body className="min-h-screen grid grid-rows-[80px_1fr]">
-        <RootLayout.Header />
-        <FileSystemProvider>
-          <main>{children}</main>
-          <Toaster position="bottom-right" richColors closeButton />
-        </FileSystemProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <RootLayout.Header />
+          <FileSystemProvider>
+            <main>{children}</main>
+            <Toaster position="bottom-right" richColors closeButton />
+          </FileSystemProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
