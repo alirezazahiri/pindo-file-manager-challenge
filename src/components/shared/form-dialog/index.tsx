@@ -34,7 +34,12 @@ export const FormDialog = <T extends FieldValues>({
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
-    form.reset();
+    // TODO: this is because the form resets just a moment before the dialog closes and
+    // it causes UI to be jumpy and not smooth
+    // so defering the form reset makes the UI smoother
+    setTimeout(() => {
+      form.reset();
+    }, 100);
     onClose();
   };
 
@@ -47,7 +52,10 @@ export const FormDialog = <T extends FieldValues>({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md" aria-describedby="form-dialog-description">
+      <DialogContent
+        className="sm:max-w-md"
+        aria-describedby="form-dialog-description"
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

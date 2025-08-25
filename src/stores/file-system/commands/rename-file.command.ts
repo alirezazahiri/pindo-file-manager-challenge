@@ -7,6 +7,7 @@ import type { RenameFilePayload } from "@/stores/file-system/types";
 import type { FileSystemNodeData } from "@/types/file-system-node";
 import { TreeNode } from "@/core";
 import { FileSystemStateContextType } from "@/providers";
+import { FileSystemNodeType } from "@/enums";
 
 export class RenameFileCommand extends BaseFileSystemCommand {
   constructor(private payload: RenameFilePayload) {
@@ -14,14 +15,25 @@ export class RenameFileCommand extends BaseFileSystemCommand {
   }
 
   execute(state: FileSystemStateContextType) {
-    const { id, newName } = this.payload;
+    const { id, newName, newExtension } = this.payload;
 
-    const nodeData = state.tree.getNode(id);
-    if (!nodeData || nodeData.data.name === newName) {
+    const nodeData = state.tree.getNode(id) as TreeNode<
+      FileSystemNodeData<FileSystemNodeType.FILE>
+    >;
+    if (
+      !nodeData ||
+      (nodeData.data.name === newName &&
+        nodeData.data.extension === newExtension)
+    ) {
       return this.createUnchangedResult();
     }
 
-    const validationResult = this.validateNewName(state, nodeData, newName);
+    const validationResult = this.validateNewName(
+      state,
+      nodeData,
+      newName,
+      newExtension
+    );
     if (!validationResult.isValid) {
       return this.createErrorResult(validationResult.error!);
     }
@@ -45,10 +57,11 @@ export class RenameFileCommand extends BaseFileSystemCommand {
   private validateNewName(
     state: FileSystemStoreState,
     nodeData: TreeNode<FileSystemNodeData>,
-    newName: string
+    newName: string,
+    newExtension: string
   ) {
     const parentId = nodeData.parent?.id ?? "";
-    const extension = this.payload.newExtension;
+    const extension = newExtension;
 
     const isUnique = isNodeNameUnique(state.tree, {
       parentId,

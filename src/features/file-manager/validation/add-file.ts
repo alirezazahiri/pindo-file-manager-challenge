@@ -23,31 +23,15 @@ export const addFileSchema = z
   })
   .refine(
     (data) => {
-      const extension = data.extension?.trim();
-      const name = data.name?.trim();
-      if (!!extension) {
-        if (!!name) {
-          return FILE_NAME_REGEX.test(name);
-        }
-        return true;
-      }
-      return !!name && FILE_NAME_REGEX.test(name);
-    },
-    {
-      message: Errors.FILE_NAME_REQUIRED,
-      path: ["name"],
-    }
-  )
-  .refine(
-    (data) => {
+      const extension = data.extension.trim();
       const name = data.name?.trim();
       if (!!name) {
         return FILE_NAME_REGEX.test(name);
       }
-      return true;
+      return !!extension && true;
     },
     {
-      message: Errors.FILE_NAME_INVALID_CHARACTERS,
+      message: Errors.FILE_NAME_REQUIRED,
       path: ["name"],
     }
   );
@@ -64,7 +48,7 @@ export const addFileFields: FormField<AddFileInput>[] = [
   {
     type: "text",
     name: "extension",
-    label: "File Extension",
+    label: "File Extension (required)",
     placeholder: "txt, md, etc.",
   },
 ];

@@ -19,7 +19,7 @@ export const addFolderFields: FormField<AddFolderInput>[] = [
   {
     type: "text",
     name: "name",
-    label: "Folder Name",
+    label: "Folder Name (required)",
     placeholder: "Enter folder name",
   },
 ];

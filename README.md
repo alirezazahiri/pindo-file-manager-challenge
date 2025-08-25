@@ -31,3 +31,8 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
   - [x] Enforce lowercase file extensions
   - [x] Allow file name to be empty if extension is provided
   - [x] Do not allow folder names to be . or .. 
+
+
+- Bug fixes
+  - [x] Fix file rename issue acting as unchanged on wrong cases
+  - [x] Improve UX on dialog close (form reset causes jumps in the UI)

@@ -38,7 +38,7 @@ export const RenameFileDialog: React.FC<RenameFileDialogProps> = ({
 
   const handleSubmit = (data: RenameFileInput) => {
     if (node) {
-      onSubmit(node.id, data.name, data.extension);
+      onSubmit(node.id, data.name ?? "", data.extension);
     }
   };
 

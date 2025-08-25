@@ -34,7 +34,7 @@ export const AddFileDialog: React.FC<AddFileDialogProps> = ({
   });
 
   const handleSubmit = (data: AddFileInput) => {
-    onSubmit(parentNode?.id ?? "", data.name, data.extension);
+    onSubmit(parentNode?.id ?? "", data.name ?? "", data.extension);
   };
 
   return (
