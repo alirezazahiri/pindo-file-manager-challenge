@@ -21,7 +21,7 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - [x] Implement the file manager UI and necessary shared and UI components
 - [x] Install react-hook-form and zod packages
 - [x] Add a reusable form-generator component with validation
-- [ ] Prevent duplicate file and folder names
-- [ ] Add form errors to errors.enum
-- [ ] fix file rename not working
+- [x] Prevent duplicate file and folder names
+- [x] Add form errors to errors.enum
+- [x] fix file rename not working
 - [ ] Refactor if needed (performance, readability, ...)

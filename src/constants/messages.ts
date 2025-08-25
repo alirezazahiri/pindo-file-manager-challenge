@@ -1,4 +1,4 @@
-import { FileSystemNodeType } from "./file-system-node-type.enum";
+import { FileSystemNodeType } from "@/enums/file-system-node-type.enum";
 
 export const Messages = {
   FILE_DELETED_SUCCESSFULLY: "File deleted successfully",

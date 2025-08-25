@@ -1,5 +1,5 @@
 import { Tree } from "@/core";
-import { Errors } from "@/enums/errors.enum";
+import { Errors } from "@/constants/errors";
 
 type TreeNodeMarshalData<T> = { id: string; data: T; parentId: string | null };
 type TreeMarshalData<T> = { rootId: string; nodes: TreeNodeMarshalData<T>[] };

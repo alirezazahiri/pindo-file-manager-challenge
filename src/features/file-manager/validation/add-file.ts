@@ -1,3 +1,4 @@
+import { Errors } from "@/constants/errors";
 import { FILE_EXTENSION_REGEX, FILE_NAME_REGEX } from "@/constants/regex";
 import { FormField } from "@/types/form";
 import { z } from "zod";
@@ -5,15 +6,17 @@ import { z } from "zod";
 export const addFileSchema = z.object({
   name: z
     .string()
-    .min(1, { message: "File name is required" })
+    .trim()
+    .min(1, { message: Errors.FILE_NAME_REQUIRED })
     .regex(FILE_NAME_REGEX, {
-      message: "File name contains invalid characters",
+      message: Errors.FILE_NAME_INVALID_CHARACTERS,
     }),
   extension: z
     .string()
-    .min(1, { message: "File extension is required" })
+    .trim()
+    .min(1, { message: Errors.FILE_EXTENSION_REQUIRED })
     .regex(FILE_EXTENSION_REGEX, {
-      message: "File extension contains invalid characters",
+      message: Errors.FILE_EXTENSION_INVALID_CHARACTERS,
     }),
 });
 

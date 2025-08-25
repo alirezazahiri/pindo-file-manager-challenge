@@ -1,11 +1,42 @@
 import { FileSystemFileNode, FileSystemFolderNode } from "@/models";
 import { FileSystemStoreActionType } from "./enum";
-import type { FileSystemStoreAction } from "./types";
+import type { FileSystemStoreAction, RenameFilePayload } from "./types";
 import { FileSystemNodeType } from "@/enums";
-import { fileSystemInitialState, FileSystemStoreState } from "./store";
+import { fileSystemInitialState, type FileSystemStoreState } from "./store";
 import { toast } from "sonner";
-import { Errors } from "@/enums/errors.enum";
-import { Messages } from "@/enums/messages.enum";
+import { Errors } from "@/constants/errors";
+import { Messages } from "@/constants/messages";
+
+type CheckIsNodeNameUniqueParams = {
+  tree: FileSystemStoreState["tree"];
+  params: {
+    parentId: string;
+    name: string;
+    extension?: string;
+    excludeId?: string;
+  };
+};
+
+const checkIsNodeNameUnique = ({
+  tree,
+  params,
+}: CheckIsNodeNameUniqueParams) => {
+  const children = tree.getChildren(params.parentId);
+
+  return !children.some((child) => {
+    if (params.excludeId && params.excludeId === child.id) return false;
+
+    const data = child.data;
+
+    if (data.type === FileSystemNodeType.FOLDER) {
+      return !params.extension && data.name === params.name;
+    } else {
+      return params.extension
+        ? data.name === params.name && data.extension === params.extension
+        : false;
+    }
+  });
+};
 
 export const fileSystemStoreReducer = (
   state: FileSystemStoreState = fileSystemInitialState,
@@ -19,7 +50,21 @@ export const fileSystemStoreReducer = (
       };
     }
     case FileSystemStoreActionType.ADD_FOLDER: {
+      const isNameUnique = checkIsNodeNameUnique({
+        tree: state.tree,
+        params: {
+          parentId: action.payload.parentId,
+          name: action.payload.name,
+        },
+      });
+
+      if (!isNameUnique) {
+        toast.error(Errors.FOLDER_NAME_NOT_UNIQUE(action.payload.name));
+        return state;
+      }
+
       const newTree = state.tree.clone();
+
       const addedNode = newTree.addNode(
         action.payload.parentId,
         FileSystemFolderNode.generate(
@@ -39,7 +84,27 @@ export const fileSystemStoreReducer = (
       return isAdded ? { ...state, tree: newTree } : state;
     }
     case FileSystemStoreActionType.ADD_FILE: {
+      const isNameUnique = checkIsNodeNameUnique({
+        tree: state.tree,
+        params: {
+          parentId: action.payload.parentId,
+          name: action.payload.name,
+          extension: action.payload.extension,
+        },
+      });
+
+      if (!isNameUnique) {
+        toast.error(
+          Errors.FILE_NAME_NOT_UNIQUE(
+            action.payload.name,
+            action.payload.extension
+          )
+        );
+        return state;
+      }
+
       const newTree = state.tree.clone();
+
       const addedNode = newTree.addNode(
         action.payload.parentId,
         FileSystemFileNode.generate(
@@ -92,11 +157,45 @@ export const fileSystemStoreReducer = (
         return state;
       }
 
-      const newTree = state.tree.clone();
-      const isUpdated = newTree.updateNodeData(action.payload.id, {
-        ...nodeData.data,
-        name: action.payload.newName,
+      const isNameUnique = checkIsNodeNameUnique({
+        tree: state.tree,
+        params: {
+          parentId: nodeData.parent?.id ?? "",
+          name: action.payload.newName,
+          extension:
+            nodeData?.data.type === FileSystemNodeType.FILE
+              ? (action.payload as RenameFilePayload).newExtension
+              : undefined,
+          excludeId: action.payload.id,
+        },
       });
+
+      if (!isNameUnique) {
+        toast.error(
+          nodeData?.data.type === FileSystemNodeType.FILE
+            ? Errors.FILE_NAME_NOT_UNIQUE(
+                action.payload.newName,
+                nodeData.data.extension
+              )
+            : Errors.FOLDER_NAME_NOT_UNIQUE(action.payload.newName)
+        );
+        return state;
+      }
+
+      const newTree = state.tree.clone();
+      const isUpdated = newTree.updateNodeData(
+        action.payload.id,
+        nodeData.data.type === FileSystemNodeType.FILE
+          ? {
+              ...nodeData.data,
+              name: action.payload.newName,
+              extension: (action.payload as RenameFilePayload).newExtension,
+            }
+          : {
+              ...nodeData.data,
+              name: action.payload.newName,
+            }
+      );
 
       if (isUpdated) {
         toast.success(

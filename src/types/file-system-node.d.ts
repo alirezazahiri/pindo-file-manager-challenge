@@ -13,7 +13,6 @@ export type FileSystemNodeData<T extends FileSystemNodeType = FileSystemNodeType
   | {
       parentId: string | null; // root node has no parent
       type: FileSystemNodeType.FOLDER;
-      isExpanded: boolean; // default to true (or maybe false)
-      // TODO: come back and update this comment if the decision is made
+      isExpanded: boolean; // default to true
     }
 );
