@@ -33,7 +33,7 @@ export class DeleteNodeCommand extends BaseFileSystemCommand {
     );
   }
 
-  private getDeleteErrorMessage(nodeType?: FileSystemNodeType): string {
+  private getDeleteErrorMessage(nodeType?: FileSystemNodeType) {
     return nodeType === FileSystemNodeType.FOLDER
       ? Errors.FAILED_TO_DELETE_FOLDER
       : Errors.FAILED_TO_DELETE_FILE;

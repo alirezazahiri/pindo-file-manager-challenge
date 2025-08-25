@@ -4,11 +4,12 @@ import type { IFileSystemCommand } from "./abstract";
 import { AddFolderCommand } from "./add-folder.command";
 import { AddFileCommand } from "./add-file.command";
 import { DeleteNodeCommand } from "./delete-node.command";
-import { RenameNodeCommand } from "./rename-node.command";
+import { RenameFolderCommand } from "./rename-folder.command";
 import { ToggleFolderExpansionCommand } from "./toggle-folder-expansion.command";
+import { RenameFileCommand } from "./rename-file.command";
 
 export class FileSystemCommandFactory {
-  static createCommand(action: FileSystemStoreAction): IFileSystemCommand | null {
+  static createCommand(action: FileSystemStoreAction) {
     switch (action.type) {
       case FileSystemStoreActionType.ADD_FOLDER:
         return new AddFolderCommand(action.payload);
@@ -20,8 +21,10 @@ export class FileSystemCommandFactory {
         return new DeleteNodeCommand(action.payload);
 
       case FileSystemStoreActionType.RENAME_FILE:
+        return new RenameFileCommand(action.payload);
+
       case FileSystemStoreActionType.RENAME_FOLDER:
-        return new RenameNodeCommand(action.payload);
+        return new RenameFolderCommand(action.payload);
 
       case FileSystemStoreActionType.TOGGLE_FOLDER_EXPANSION:
         return new ToggleFolderExpansionCommand(action.payload);

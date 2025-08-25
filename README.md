@@ -25,6 +25,6 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - [x] ~~Add form errors to errors.enum~~ (moved messages and errors to constants)
 - [x] Fix file rename not working
 - [ ] Add dark mode
-- Refactor if needed (performance, readability, ...)
+- Refactors
   - [x] Use command pattern for file system actions
-  - [ ] Refactor rename node command (break it into separate commands)
+  - [x] Refactor rename node command (break it into separate commands)

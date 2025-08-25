@@ -42,7 +42,7 @@ export class AddFileCommand extends BaseFileSystemCommand {
     parentId: string,
     name: string,
     extension: string
-  ): boolean {
+  ) {
     return isNodeNameUnique(state.tree, {
       parentId,
       name,

@@ -39,7 +39,7 @@ export class AddFolderCommand extends BaseFileSystemCommand {
     state: FileSystemStoreState,
     parentId: string,
     name: string
-  ): boolean {
+  ) {
     return isNodeNameUnique(state.tree, {
       parentId,
       name,
