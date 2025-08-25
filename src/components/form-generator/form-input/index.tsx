@@ -30,7 +30,7 @@ export const FormInput = <T extends FieldValues>({
           <FormControl>
             <Input
               className={cn(
-                "w-full text-base-content placeholder:text-base-content/70",
+                "w-full",
                 props.className
               )}
               {...field}

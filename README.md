@@ -24,7 +24,7 @@ All the requirements and expectations are mentioned in the [task.pdf](./task.pdf
 - [x] Prevent duplicate file and folder names
 - [x] ~~Add form errors to errors.enum~~ (moved messages and errors to constants)
 - [x] Fix file rename not working
-- [ ] Add dark mode
+- [x] Add dark mode
 - Refactors
   - [x] Use command pattern for file system actions
   - [x] Refactor rename node command (break it into separate commands)

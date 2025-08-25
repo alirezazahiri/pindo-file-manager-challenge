@@ -21,7 +21,7 @@ export const TreeNodeActions = ({
   onRenameFile,
 }: TreeNodeActionsProps) => {
   return (
-    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+    <div className="flex items-center gap-1 lg:opacity-0 group-hover:opacity-100 transition-opacity">
       {isFolder ? (
         <>
           <IconButton
@@ -57,7 +57,7 @@ export const TreeNodeActions = ({
           )}
         </>
       ) : (
-        <div>
+        <>
           <IconButton
             icon={EditIcon}
             onClick={onRenameFile}
@@ -71,7 +71,7 @@ export const TreeNodeActions = ({
             color="red"
             title="Delete File"
           />
-        </div>
+        </>
       )}
     </div>
   );

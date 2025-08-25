@@ -16,10 +16,10 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex items-center">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between bg-card border rounded-lg">
+    <header className="container flex items-center">
+      <div className="w-full p-4 flex items-center justify-between bg-card border rounded-lg">
         <div className="flex items-center gap-3">
-          <FolderClosedIcon className="h-6 w-6 text-primary" />
+          <FolderClosedIcon className="size-6 text-primary" />
           <h1 className="text-2xl font-semibold text-foreground">
             File Manager
           </h1>

@@ -86,7 +86,7 @@ export const FileManagerFeature = () => {
 
   return (
     <>
-      <section className="container mx-auto">
+      <section className="container">
         <Card className="p-4">
           <TreeNodeComponent
             tree={tree}
